@@ -18,7 +18,9 @@ include $(WUT_ROOT)/share/wut_rules
 CPPFLAGS      += -D__WIIU__ -D__AROMA__
 CFLAGS        += -O2 -ffunction-sections -fdata-sections
 CXXFLAGS      += -O2 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti
-LDFLAGS       += -Wl,--gc-sections
+# Note: wut's rules may invoke the linker directly in some environments (CI),
+# so prefer linker-native flags here (not compiler-driver -Wl, flags).
+LDFLAGS       += --gc-sections
 
 # Link against WUPS and ProcUI
 LDLIBS        += -lwups -lproc_ui
