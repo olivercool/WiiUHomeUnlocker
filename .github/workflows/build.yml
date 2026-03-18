@@ -12,8 +12,8 @@ jobs:
 
       - name: Install Wii U dependencies
         run: |
-          sudo dkp-pacman -Syu --needed --noconfirm wiiu-dev
-          sudo dkp-pacman -S --needed --noconfirm git cmake make
+          dkp-pacman -Syu --needed --noconfirm wiiu-dev
+          dkp-pacman -S --needed --noconfirm git cmake make
 
       - name: Build and install WUPS (WiiUPluginSystem)
         run: |
@@ -41,5 +41,4 @@ jobs:
           name: wiiu-build
           path: |
             build/*.rpx
-            build/*.wuhb
             build/*.wps
