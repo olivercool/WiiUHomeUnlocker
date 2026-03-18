@@ -30,7 +30,11 @@ all: $(BUILD)/$(TARGET).rpx
 # Optional: build a .wps Aroma plugin if wups-aroma-pack and plugin.yml are present
 wps: $(BUILD)/$(TARGET).rpx
 ifneq ("$(wildcard plugin.yml)","")
-	wups-aroma-pack plugin.yml $(BUILD)/$(TARGET).rpx $(BUILD)/$(TARGET).wps
+	@if command -v wups-aroma-pack >/dev/null 2>&1; then \
+		wups-aroma-pack plugin.yml $(BUILD)/$(TARGET).rpx $(BUILD)/$(TARGET).wps; \
+	else \
+		echo "wups-aroma-pack not found; skipping .wps packaging."; \
+	fi
 else
 	@echo "plugin.yml not found; skipping .wps packaging."
 endif

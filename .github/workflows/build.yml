@@ -13,6 +13,10 @@ jobs:
       - name: Install Wii U dependencies
         run: |
           sudo dkp-pacman -Syu --needed --noconfirm wiiu-dev
+          # WUPS / Aroma tooling isn't included in wiiu-dev on all images.
+          # If available as packages, install them; otherwise the Makefile will
+          # still build the RPX and skip WPS packaging.
+          sudo dkp-pacman -S --needed --noconfirm wiiu-wups wiiu-wupsloader wiiu-wups-tools || true
 
       - name: Compile
         run: |
@@ -24,6 +28,6 @@ jobs:
         with:
           name: wiiu-build
           path: |
-            *.rpx
-            *.wuhb
-            *.wps
+            build/*.rpx
+            build/*.wuhb
+            build/*.wps
