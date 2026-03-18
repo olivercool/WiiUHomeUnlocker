@@ -13,6 +13,22 @@ jobs:
       - name: Install Wii U dependencies
         run: |
           sudo dkp-pacman -Syu --needed --noconfirm wiiu-dev
+          sudo dkp-pacman -S --needed --noconfirm git cmake make
+
+      - name: Build and install WUPS (WiiUPluginSystem)
+        run: |
+          set -eux
+          if [ ! -f "${DEVKITPRO}/wups/include/wups.h" ]; then
+            rm -rf /tmp/WiiUPluginSystem
+            git clone --depth 1 https://github.com/wiiu-env/WiiUPluginSystem.git /tmp/WiiUPluginSystem
+
+            # Build libwups and install headers/libs into $DEVKITPRO/wups
+            cmake -S /tmp/WiiUPluginSystem -B /tmp/WiiUPluginSystem/build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX="${DEVKITPRO}/wups"
+            cmake --build /tmp/WiiUPluginSystem/build -- -j"$(nproc)"
+            cmake --install /tmp/WiiUPluginSystem/build
+          fi
 
       - name: Compile
         run: |

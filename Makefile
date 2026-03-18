@@ -41,7 +41,13 @@ LDFLAGS  := -g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map) -Wl,--gc-sections
 # CI will fail at compile-time (missing headers) or link-time (missing -lwups).
 LIBS    := -lwups -lproc_ui
 
-LIBDIRS := $(PORTLIBS) $(WUT_ROOT)
+# Add WUPS location if installed into DEVKITPRO
+WUPS_ROOT ?= $(DEVKITPRO)/wups
+ifneq ("$(wildcard $(WUPS_ROOT)/include/wups.h)","")
+  LIBDIRS := $(PORTLIBS) $(WUT_ROOT) $(WUPS_ROOT)
+else
+  LIBDIRS := $(PORTLIBS) $(WUT_ROOT)
+endif
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point
