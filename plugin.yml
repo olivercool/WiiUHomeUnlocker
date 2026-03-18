@@ -1,0 +1,12 @@
+name: "My Aroma Plugin"
+author: "Unknown Author"
+version: "0.1.0"
+description: "Example Aroma plugin scaffold using WUPS."
+license: "MIT"
+
+# RPX produced by the Makefile (without extension)
+module_name: "MyAromaPlugin"
+
+# Entry RPX path inside the WPS archive
+rpx_path: "wiiu/apps/MyAromaPlugin/MyAromaPlugin.rpx"
+
